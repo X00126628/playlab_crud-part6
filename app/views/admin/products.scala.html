@@ -1,4 +1,4 @@
-@(products: List[models.Product], categories: List[models.Category], user: models.users.User)
+@(products: List[models.Product], categories: List[models.Category], user: models.users.User, env: play.api.Environment)
 
 <!-- Pass page title and content {html between braces} to the main view -->
 @admin.adminMain("Products", user) {
@@ -30,6 +30,7 @@
           <thead>
           <!-- The header row-->
           <tr>
+            <th>Image</th>
             <th>ID</th>
             <th>Name</th>
             <th>Category</th>
@@ -62,6 +63,13 @@
                         <span class="glyphicon glyphicon-trash"></span>
                       </a>
                   </td>
+
+                        @if(env.resource("public/images/proeductImages/thumbnails/" + p.getId + ".jpg").isDefined){" +
+                            <td> <img src="/assets/images/productImages/thumbnails/@(p.getId +" .jpg)"/></td>
+                                }
+                        else{
+                        <td> <img src="/assets/images/productImages/thumbnails/noImage.png"/></td>
+                        }
 				    </tr>
 					} <!-- End of For loop -->
           </tbody>

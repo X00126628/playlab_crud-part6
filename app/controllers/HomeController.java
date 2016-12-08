@@ -22,10 +22,13 @@ public class HomeController extends Controller {
     // Declare a private FormFactory instance
     private FormFactory formFactory;
 
+    private Environment env;
+
     //  Inject an instance of FormFactory it into the controller via its constructor
     @Inject
-    public HomeController(FormFactory f) {
+    public HomeController(FormFactory f, Environment e) {
         this.formFactory = f;
+        this.env = e;
     }
 
     // Method retuns the logged in user (or null)
@@ -59,6 +62,6 @@ public class HomeController extends Controller {
             productsList = Category.find.ref(cat).getProducts();
         }
 
-        return ok(products.render(productsList, categoriesList, getUserFromSession()));
+        return ok(products.render(productsList, categoriesList, getUserFromSession(), env));
     }
 }

@@ -143,4 +143,36 @@ public class AdminController extends Controller {
         return redirect(routes.AdminController.products(0));
     }
 
+    public String saveFile(Long id, FilePart<File> image){
+
+        if(image != null){
+
+            String mimeType = image.getContentType();
+            if(mimeType.startsWith("image/")){
+
+                File file = image.getFile();
+                ConvertCmd cmd = new ConvertCmd();
+                IMOperation op = new IMOperation();
+                op.addImage(file.getAbsolutePath());
+                op.resize(300,200);
+                op.addImage("public/images/productImages/thumbnails/" + id + ".jpg");
+                IMOperation thumb = new IMOperation();
+                thumb.addImage(file.getAbsolutePath());
+                thumb.thumbnail(60);
+                thumb.addImage("public/images/productImages/thumbnails/" + id + ".jpg");
+                try{
+
+                    cmd.run(op);
+                    cmd.run(thumb);
+
+                }
+                catch(Exception e){
+
+                    e.printStackTrace();
+                }
+                return " and image saved";
+            }
+        }
+        return "image file missing";
+    }
 }
