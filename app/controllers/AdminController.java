@@ -9,6 +9,11 @@ import play.mvc.*;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import play.mvc.Http.*;
+import play.mvc.Http.MultipartFormData.FilePart;
+import java.io.File;
+import org.im4java.core.ConvertCmd;
+import org.im4java.core.IMOperation;
 
 import views.html.admin.*;
 import models.*;
@@ -92,6 +97,8 @@ public class AdminController extends Controller {
             p.update();
         }
 
+        MultipartFormData data = request().body().asMultipartFormData();
+        FilePart image = data.getFile("upload");
         // Set a success message in temporary flash
         // for display in return view
         flash("success", "Product " + p.getName() + " has been created/ updated");
